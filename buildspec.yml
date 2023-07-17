@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - echo "Installing dependencies..."
+  build:
+    commands:
+      - pip install pyjwt --target .
+      - rm -r PyJWT-2.6.0.dist-info
+      - echo "Zipping upload package..."
+      - zip -r backend.zip .
+      - echo "Uploading lambda Function..."
+      - aws lambda update-function-code --function-name mulberry --zip-file fileb://backend.zip
+      - echo "DONE!"
